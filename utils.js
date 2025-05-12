@@ -37,3 +37,8 @@ function convertToMeters(size) {
         throw new Error("La taille fournie n'est pas dans une plage raisonnable pour être interprétée.");
     }
 }
+
+module.exports = {
+    isValidPhoneNumber,
+    convertToMeters
+};
