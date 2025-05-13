@@ -20,7 +20,7 @@ router.get('/:id', async (req, res, next) => {
             });
         }
 
-        res.render('personnels/details', {
+        res.render('personnel/show', {
             title: `Informations personnelles de ${personnel.Personne.prenom} ${personnel.Personne.nom}`,
             personnel: personnel
         });
@@ -48,7 +48,7 @@ router.get('/:id/edit', async (req, res, next) => {
             });
         }
 
-        res.render('personnels/edit', {
+        res.render('personnel/edit', {
             title: `Modifier les informations personnelles de ${personnel.Personne.prenom} ${personnel.Personne.nom}`,
             personnel: personnel
         });
@@ -94,7 +94,7 @@ router.post('/:id/edit', async (req, res, next) => {
                 }]
             });
 
-            return res.render('personnels/edit', {
+            return res.render('personnel/edit', {
                 title: `Modifier les informations personnelles de ${personnel.Personne.prenom} ${personnel.Personne.nom}`,
                 personnel: personnel,
                 errors: error.errors.map(e => e.message),
@@ -119,7 +119,7 @@ router.get('/new/:personneId', async (req, res, next) => {
             });
         }
 
-        res.render('personnels/new', {
+        res.render('personnel/new', {
             title: `Ajouter des informations personnelles pour ${personne.prenom} ${personne.nom}`,
             personne: personne
         });
@@ -171,7 +171,7 @@ router.post('/new/:personneId', async (req, res, next) => {
             const personneId = req.params.personneId;
             const personne = await Personne.findByPk(personneId);
 
-            return res.render('personnels/new', {
+            return res.render('personnel/new', {
                 title: `Ajouter des informations personnelles pour ${personne.prenom} ${personne.nom}`,
                 personne: personne,
                 errors: error.errors.map(e => e.message),

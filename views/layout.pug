@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title= title || 'Gestion des Personnes'
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  body
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-primary.mb-4
+      div.container
+        a.navbar-brand(href='/') Gestion des Personnes
+        button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbarNav')
+          span.navbar-toggler-icon
+        div.collapse.navbar-collapse#navbarNav
+          ul.navbar-nav.ms-auto
+            li.nav-item
+              a.nav-link(href='/') Accueil
+            li.nav-item
+              a.nav-link(href='/personnes') Personnes
+    
+    main.container.py-4
+      block content
+    
+    footer.footer.mt-auto.py-3.bg-light
+      div.container.text-center
+        span.text-muted &copy; 2023 Application de Gestion des Personnes
+    
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js')

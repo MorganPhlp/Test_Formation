@@ -1,0 +1,42 @@
+extends ../layout
+
+block content
+  div.d-flex.justify-content-between.align-items-center.mb-4
+    h1 Modifier les Informations de Contact
+    a.btn.btn-secondary(href=`/contacts/${contact.id}`)
+      i.bi.bi-x-circle.me-2
+      | Annuler
+  
+  div.card
+    div.card-header.bg-info.text-white
+      h2.h4= `Contact de ${contact.Personne ? contact.Personne.prenom + ' ' + contact.Personne.nom : 'Personne inconnue'}`
+    
+    div.card-body
+      form(action=`/contacts/${contact.id}`, method='POST')
+        input(type='hidden', name='_method', value='PUT')
+        
+        div.mb-3
+          label.form-label(for='adresse') Adresse
+          input.form-control#adresse(type='text', name='adresse', value=contact.adresse || '')
+          div.form-text L'adresse postale complète
+        
+        div.row.mb-3
+          div.col-md-8
+            label.form-label(for='ville') Ville
+            input.form-control#ville(type='text', name='ville', value=contact.ville || '')
+          
+          div.col-md-4
+            label.form-label(for='pays') Pays
+            select.form-select#pays(name='pays')
+              option(value='', selected=!contact.pays) Sélectionnez un pays
+              option(value='FR', selected=contact.pays === 'FR') France
+              option(value='UK', selected=contact.pays === 'UK') Royaume-Uni
+        
+        div.mb-3
+          label.form-label(for='numero_tel') Numéro de téléphone
+          input.form-control#numero_tel(type='tel', name='numero_tel', value=contact.numero_tel || '')
+          div.form-text Format international recommandé
+        
+        div.d-grid.gap-2.d-md-flex.justify-content-md-end
+          a.btn.btn-secondary.me-md-2(href=`/contacts/${contact.id}`) Annuler
+          button.btn.btn-primary(type='submit') Enregistrer les modifications

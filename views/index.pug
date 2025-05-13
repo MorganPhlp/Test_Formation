@@ -1,8 +1,9 @@
-doctype html
-html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    h1= title
-    p= message
+extends layout
+
+block content
+    div.jumbotron
+        h1.display-4= title
+        p.lead= message
+        hr.my-4
+        p Utilisez cette application pour gérer les informations de vos contacts.
+        a.btn.btn-primary.btn-lg(href='/personnes') Voir la liste des personnes

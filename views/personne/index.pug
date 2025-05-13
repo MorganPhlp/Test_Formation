@@ -1,0 +1,40 @@
+extends ../layout
+
+block content
+  h1.mb-4 Liste des Personnes
+  
+  div.mb-3
+    a.btn.btn-success(href='/personnes/new')
+      i.bi.bi-plus-circle.me-2
+      | Ajouter une personne
+  
+  if personnes && personnes.length > 0
+    div.table-responsive
+      table.table.table-striped.table-hover
+        thead.table-dark
+          tr
+            th #
+            th Prénom
+            th Nom
+            th Actions
+        tbody
+          each personne in personnes
+            tr
+              td= personne.id
+              td= personne.prenom
+              td= personne.nom
+              td
+                div.btn-group
+                  a.btn.btn-sm.btn-info(href=`/contacts/${personne.id}`, title='Voir informations de contact')
+                    i.bi.bi-envelope.me-1
+                    | Contact
+                  a.btn.btn-sm.btn-success(href=`/personnels/${personne.id}`, title='Voir informations personnelles')
+                    i.bi.bi-person.me-1
+                    | Personnel
+                  a.btn.btn-sm.btn-danger(href=`/personnes/${personne.id}/delete`, onclick='return confirm("Êtes-vous sûr de vouloir supprimer cette personne?")')
+                    i.bi.bi-trash
+                    | Supprimer
+  else
+    div.alert.alert-info
+      i.bi.bi-info-circle.me-2
+      | Aucune personne n'a été trouvée dans la base de données.

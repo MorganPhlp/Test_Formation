@@ -20,7 +20,7 @@ router.get('/:id', async (req, res, next) => {
             });
         }
 
-        res.render('contacts/details', {
+        res.render('contact/show', {
             title: `Contact de ${contact.Personne.prenom} ${contact.Personne.nom}`,
             contact: contact
         });
@@ -48,7 +48,7 @@ router.get('/:id/edit', async (req, res, next) => {
             });
         }
 
-        res.render('contacts/edit', {
+        res.render('contact/edit', {
             title: `Modifier le contact de ${contact.Personne.prenom} ${contact.Personne.nom}`,
             contact: contact
         });
@@ -95,7 +95,7 @@ router.post('/:id/edit', async (req, res, next) => {
                 }]
             });
 
-            return res.render('contacts/edit', {
+            return res.render('contact/edit', {
                 title: `Modifier le contact de ${contact.Personne.prenom} ${contact.Personne.nom}`,
                 contact: contact,
                 errors: error.errors.map(e => e.message),
@@ -120,7 +120,7 @@ router.get('/new/:personneId', async (req, res, next) => {
             });
         }
 
-        res.render('contacts/new', {
+        res.render('contact/new', {
             title: `Ajouter un contact pour ${personne.prenom} ${personne.nom}`,
             personne: personne
         });
@@ -173,7 +173,7 @@ router.post('/new/:personneId', async (req, res, next) => {
             const personneId = req.params.personneId;
             const personne = await Personne.findByPk(personneId);
 
-            return res.render('contacts/new', {
+            return res.render('contact/new', {
                 title: `Ajouter un contact pour ${personne.prenom} ${personne.nom}`,
                 personne: personne,
                 errors: error.errors.map(e => e.message),

@@ -1,0 +1,47 @@
+extends ../layout
+
+block content
+  div.d-flex.justify-content-between.align-items-center.mb-4
+    h1 Informations Personnelles
+    div.btn-group
+      a.btn.btn-primary(href='/personnes')
+        i.bi.bi-arrow-left.me-2
+        | Retour à la liste
+      a.btn.btn-warning(href=`/personnels/${personnel.id}/edit`)
+        i.bi.bi-pencil.me-2
+        | Modifier
+  
+  if personnel
+    div.card
+      div.card-header.bg-success.text-white
+        h2.h4= `Informations de ${personnel.Personne ? personnel.Personne.prenom + ' ' + personnel.Personne.nom : 'Personne inconnue'}`
+      
+      div.card-body
+        dl.row
+          dt.col-sm-3 Âge
+          dd.col-sm-9
+            if personnel.age
+              span #{personnel.age} ans
+            else
+              span.text-muted Non renseigné
+          
+          dt.col-sm-3 Taille
+          dd.col-sm-9
+            if personnel.taille
+              span #{personnel.taille} m
+            else
+              span.text-muted Non renseignée
+          
+          dt.col-sm-3 Poids
+          dd.col-sm-9
+            if personnel.poids
+              span #{personnel.poids} kg
+            else
+              span.text-muted Non renseigné
+      
+      div.card-footer
+        div.text-muted.small Dernière mise à jour: #{personnel.updatedAt ? new Date(personnel.updatedAt).toLocaleString() : 'Inconnue'}
+  else
+    div.alert.alert-danger
+      i.bi.bi-exclamation-triangle.me-2
+      | Les informations personnelles n'ont pas été trouvées pour cette personne.

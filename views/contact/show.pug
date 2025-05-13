@@ -1,0 +1,44 @@
+extends ../layout
+
+block content
+  div.d-flex.justify-content-between.align-items-center.mb-4
+    h1 Informations de Contact
+    div.btn-group
+      a.btn.btn-primary(href='/personnes')
+        i.bi.bi-arrow-left.me-2
+        | Retour à la liste
+      a.btn.btn-warning(href=`/contacts/${contact.id}/edit`)
+        i.bi.bi-pencil.me-2
+        | Modifier
+  
+  if contact
+    div.card
+      div.card-header.bg-info.text-white
+        h2.h4= `Contact de ${contact.Personne ? contact.Personne.prenom + ' ' + contact.Personne.nom : 'Personne inconnue'}`
+      
+      div.card-body
+        dl.row
+          dt.col-sm-3 Adresse
+          dd.col-sm-9= contact.adresse || 'Non renseignée'
+          
+          dt.col-sm-3 Ville
+          dd.col-sm-9= contact.ville || 'Non renseignée'
+          
+          dt.col-sm-3 Pays
+          dd.col-sm-9
+            if contact.pays === 'FR'
+              span France
+            else if contact.pays === 'UK'
+              span Royaume-Uni
+            else
+              span= contact.pays || 'Non renseigné'
+          
+          dt.col-sm-3 Numéro de téléphone
+          dd.col-sm-9= contact.numero_tel || 'Non renseigné'
+      
+      div.card-footer
+        div.text-muted.small Dernière mise à jour: #{contact.updatedAt ? new Date(contact.updatedAt).toLocaleString() : 'Inconnue'}
+  else
+    div.alert.alert-danger
+      i.bi.bi-exclamation-triangle.me-2
+      | Les informations de contact n'ont pas été trouvées pour cette personne.

@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
             order: [['nom', 'ASC'], ['prenom', 'ASC']]
         });
 
-        res.render('personnes/liste', {
+        res.render('personne/index', {  // Changé de personnes/liste à personne/index
             title: 'Liste des personnes',
             personnes: personnes
         });

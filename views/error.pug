@@ -1,8 +1,7 @@
-doctype html
-html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    h1= title
-    p= message
+extends layout
+
+block content
+    div.alert.alert-danger
+        h1= title
+        p= message
+    a.btn.btn-primary(href='/') Retour à l'accueil
