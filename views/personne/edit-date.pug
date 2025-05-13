@@ -1,0 +1,38 @@
+extends ../layout
+
+block content
+  div.d-flex.justify-content-between.align-items-center.mb-4
+    h1 Modifier la date d'adhésion
+    a.btn.btn-secondary(href='/personnes')
+      i.bi.bi-arrow-left.me-2
+      | Retour à la liste
+  
+  div.card
+    div.card-header.bg-warning.text-dark
+      h2.h4= `Date d'adhésion de ${personne.prenom} ${personne.nom}`
+    
+    div.card-body
+      form(action=`/personnes/${personne.id}/edit-date`, method='POST')
+        div.mb-3
+          label.form-label(for='date_adhesion') Date d'adhésion
+          input.form-control#date_adhesion(
+            type='date', 
+            name='date_adhesion', 
+            value=personne.date_adhesion ? personne.date_adhesion.toISOString().substring(0, 10): ''
+          )
+          div.form-text 
+            | Laissez vide pour ne pas spécifier de date d'adhésion.
+            | Format: AAAA-MM-JJ
+        
+        div.mb-3
+          p.text-muted Note: La date d'adhésion est utilisée pour déterminer l'ancienneté de la personne dans le système.
+        
+        div.d-grid.gap-2.d-md-flex.justify-content-md-end
+          button.btn.btn-primary(type='submit') Enregistrer
+          a.btn.btn-secondary.ms-2(href='/personnes') Annuler
+    
+    div.card-footer.text-muted
+      if personne.date_adhesion
+        | Date actuelle: #{new Date(personne.date_adhesion).toLocaleDateString()}
+      else
+        | Aucune date d'adhésion actuellement spécifiée.

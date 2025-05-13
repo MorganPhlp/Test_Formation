@@ -24,6 +24,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method')); // Pour gérer les méthodes PUT et DELETE
 
+// Ajoutez ce middleware pour le débogage des routes
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 // Routes
 app.get('/', (req, res) => {
   res.render('index', { title: 'Application de Gestion des Personnes', message: 'Bienvenue sur votre application de gestion de contacts!' });
@@ -38,7 +44,7 @@ app.use('/personnels', personnelRoutes);
 app.use((req, res, next) => {
   res.status(404).render('error', {
     title: 'Page non trouvée',
-    message: 'La page que vous recherchez n\'existe pas.'
+    message: `La page "${req.originalUrl}" que vous recherchez n'existe pas.`
   });
 });
 

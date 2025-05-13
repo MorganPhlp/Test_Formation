@@ -1,0 +1,99 @@
+extends ../layout
+
+block content
+  div.d-flex.justify-content-between.align-items-center.mb-4
+    h1 Détails de la personne
+    a.btn.btn-secondary(href='/personnes')
+      i.bi.bi-arrow-left.me-2
+      | Retour à la liste
+  
+  div.card.mb-4
+    div.card-header.bg-primary.text-white
+      h2.h4= `${personne.prenom} ${personne.nom}`
+    
+    div.card-body
+      dl.row
+        dt.col-sm-3 ID
+        dd.col-sm-9= personne.id
+        
+        dt.col-sm-3 Prénom
+        dd.col-sm-9= personne.prenom
+        
+        dt.col-sm-3 Nom
+        dd.col-sm-9= personne.nom
+        
+        dt.col-sm-3 Date d'adhésion
+        dd.col-sm-9
+          if personne.date_adhesion
+            = new Date(personne.date_adhesion).toLocaleDateString()
+          else
+            span.text-muted Non renseignée
+    
+    div.card-footer
+      div.btn-group
+        a.btn.btn-warning(href=`/personnes/${personne.id}/edit-date`)
+          i.bi.bi-calendar.me-2
+          | Modifier la date d'adhésion
+  
+  if personne.contact
+    div.card.mb-4
+      div.card-header.bg-info.text-white
+        h2.h4 Informations de contact
+      
+      div.card-body
+        dl.row
+          dt.col-sm-3 Adresse
+          dd.col-sm-9= personne.contact.adresse || 'Non renseignée'
+          
+          dt.col-sm-3 Ville
+          dd.col-sm-9= personne.contact.ville || 'Non renseignée'
+          
+          dt.col-sm-3 Pays
+          dd.col-sm-9
+            if personne.contact.pays === 'FR'
+              span France
+            else if personne.contact.pays === 'UK'
+              span Royaume-Uni
+            else
+              span.text-muted Non renseigné
+          
+          dt.col-sm-3 Téléphone
+          dd.col-sm-9= personne.contact.numero_tel || 'Non renseigné'
+      
+      div.card-footer
+        a.btn.btn-info(href=`/contacts/${personne.id}/edit`)
+          i.bi.bi-pencil.me-2
+          | Modifier les coordonnées
+  
+  if personne.personnel
+    div.card.mb-4
+      div.card-header.bg-success.text-white
+        h2.h4 Informations personnelles
+      
+      div.card-body
+        dl.row
+          dt.col-sm-3 Âge
+          dd.col-sm-9
+            if personne.personnel.age
+              span #{personne.personnel.age} ans
+            else
+              span.text-muted Non renseigné
+          
+          dt.col-sm-3 Taille
+          dd.col-sm-9
+            if personne.personnel.taille
+              span #{personne.personnel.taille} m
+            else
+              span.text-muted Non renseignée
+          
+          dt.col-sm-3 Poids
+          dd.col-sm-9
+            if personne.personnel.poids
+              span #{personne.personnel.poids} kg
+            else
+              span.text-muted Non renseigné
+      
+      div.card-footer
+        a.btn.btn-success(href=`/personnels/${personne.id}/edit`)
+          i.bi.bi-pencil.me-2
+          | Modifier les informations personnelles

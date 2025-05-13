@@ -4,7 +4,7 @@ block content
   h1.mb-4 Liste des Personnes
   
   div.mb-3
-    a.btn.btn-success(href='/personnes/new')
+    a.btn.btn-sm.btn-success(href='/personnes/new')
       i.bi.bi-plus-circle.me-2
       | Ajouter une personne
   
@@ -16,6 +16,7 @@ block content
             th #
             th Prénom
             th Nom
+            th Date d'adhésion
             th Actions
         tbody
           each personne in personnes
@@ -24,6 +25,11 @@ block content
               td= personne.prenom
               td= personne.nom
               td
+                if personne.date_adhesion
+                  = new Date(personne.date_adhesion).toLocaleDateString()
+                else
+                  span.text-muted Non renseigné
+              td
                 div.btn-group
                   a.btn.btn-sm.btn-info(href=`/contacts/${personne.id}`, title='Voir informations de contact')
                     i.bi.bi-envelope.me-1
@@ -31,10 +37,11 @@ block content
                   a.btn.btn-sm.btn-success(href=`/personnels/${personne.id}`, title='Voir informations personnelles')
                     i.bi.bi-person.me-1
                     | Personnel
-                  a.btn.btn-sm.btn-danger(href=`/personnes/${personne.id}/delete`, onclick='return confirm("Êtes-vous sûr de vouloir supprimer cette personne?")')
-                    i.bi.bi-trash
-                    | Supprimer
+                  a.btn.btn-sm.btn-warning(href=`/personnes/${personne.id}/edit-date`, title='Modifier la date d\'adhésion')
+                    i.bi.bi-calendar.me-1
+                    | Modifier date
   else
     div.alert.alert-info
       i.bi.bi-info-circle.me-2
       | Aucune personne n'a été trouvée dans la base de données.
+
