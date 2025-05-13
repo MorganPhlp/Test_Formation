@@ -4,7 +4,8 @@
   "description": "Un test pour vérifier que l'application du projet marche bien",
   "main": "hello.js",
   "scripts": {
-    "test": "mocha tests/**/*.js"
+    "test": "mocha tests/**/*.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
   "dependencies": {
     "@faker-js/faker": "^9.7.0",
     "express": "^5.1.0",
+    "morgan": "^1.10.0",
     "mysql2": "^3.14.1",
     "pug": "^3.0.3",
     "sequelize": "^6.37.7",
