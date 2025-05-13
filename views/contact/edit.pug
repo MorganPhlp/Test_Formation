@@ -7,6 +7,12 @@ block content
       i.bi.bi-x-circle.me-2
       | Annuler
   
+  if errors && errors.length > 0
+    div.alert.alert-danger
+      ul.mb-0
+        each error in errors
+          li= error
+  
   div.card
     div.card-header.bg-info.text-white
       h2.h4= `Contact de ${contact.Personne ? contact.Personne.prenom + ' ' + contact.Personne.nom : 'Personne inconnue'}`
@@ -35,8 +41,8 @@ block content
         div.mb-3
           label.form-label(for='numero_tel') Numéro de téléphone
           input.form-control#numero_tel(type='tel', name='numero_tel', value=contact.numero_tel || '')
-          div.form-text Format international recommandé
+          div.form-text Pour la France: +33 ou 0 suivi de 9 chiffres. Pour le UK: +44 ou 0 suivi de 10 chiffres.
         
         div.d-grid.gap-2.d-md-flex.justify-content-md-end
-          a.btn.btn-secondary.me-md-2(href=`/contacts/${contact.id}`) Annuler
-          button.btn.btn-primary(type='submit') Enregistrer les modifications
+          button.btn.btn-primary(type='submit') OK
+          a.btn.btn-secondary.ms-2(href=`/contacts/${contact.id}`) Annuler

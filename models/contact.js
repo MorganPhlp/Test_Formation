@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('FR', 'UK'),
       allowNull: false
     },
-    telephone: {
+    numero_tel: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {

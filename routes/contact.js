@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Contact, Personne } = require('../models');
+const { isValidPhoneNumber } = require('../utils');
 
 // GET - Afficher les informations de contact d'une personne
 router.get('/:id', async (req, res, next) => {
@@ -59,16 +60,34 @@ router.get('/:id/edit', async (req, res, next) => {
 });
 
 // POST - Traiter la modification du contact
-router.post('/:id/edit', async (req, res, next) => {
+router.post('/:id', async (req, res, next) => {
     try {
         const contactId = req.params.id;
-        const { adresse, ville, pays, telephone } = req.body;
+        const { adresse, ville, pays, numero_tel } = req.body;
 
-        const contact = await Contact.findByPk(contactId);
+        const contact = await Contact.findByPk(contactId, {
+            include: [{ model: Personne }]
+        });
+        
         if (!contact) {
             return res.status(404).render('error', {
                 title: 'Contact non trouvé',
                 message: `Le contact avec l'ID ${contactId} n'existe pas.`
+            });
+        }
+
+        // Validation du numéro de téléphone avec la fonction utils
+        if (numero_tel && !isValidPhoneNumber(numero_tel, pays)) {
+            return res.render('contact/edit', {
+                title: `Modifier le contact de ${contact.Personne.prenom} ${contact.Personne.nom}`,
+                contact: {
+                    ...contact.get({ plain: true }),
+                    adresse,
+                    ville,
+                    pays,
+                    numero_tel
+                },
+                errors: [`Le numéro de téléphone n'est pas valide pour le pays ${pays}`]
             });
         }
 
@@ -77,7 +96,7 @@ router.post('/:id/edit', async (req, res, next) => {
             adresse,
             ville,
             pays,
-            telephone
+            numero_tel
         });
 
         // Redirection vers la page de détails après modification
@@ -97,9 +116,11 @@ router.post('/:id/edit', async (req, res, next) => {
 
             return res.render('contact/edit', {
                 title: `Modifier le contact de ${contact.Personne.prenom} ${contact.Personne.nom}`,
-                contact: contact,
-                errors: error.errors.map(e => e.message),
-                formData: req.body
+                contact: {
+                    ...contact.get({ plain: true }),
+                    ...req.body
+                },
+                errors: error.errors.map(e => e.message)
             });
         }
 
@@ -160,7 +181,7 @@ router.post('/new/:personneId', async (req, res, next) => {
             adresse,
             ville,
             pays,
-            telephone
+            numero_tel: telephone
         });
 
         // Redirection vers la page de détails du nouveau contact

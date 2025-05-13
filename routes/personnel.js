@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Personnel, Personne } = require('../models');
+const { convertToMeters } = require('../utils');
 
 // GET - Afficher les informations personnelles d'une personne
 router.get('/:id', async (req, res, next) => {
@@ -59,12 +60,16 @@ router.get('/:id/edit', async (req, res, next) => {
 });
 
 // POST - Traiter la modification des informations personnelles
-router.post('/:id/edit', async (req, res, next) => {
+router.post('/:id', async (req, res, next) => {
     try {
         const personnelId = req.params.id;
         const { age, taille, poids } = req.body;
+        let tailleEnMetres = parseFloat(taille);
 
-        const personnel = await Personnel.findByPk(personnelId);
+        const personnel = await Personnel.findByPk(personnelId, {
+            include: [{ model: Personne }]
+        });
+        
         if (!personnel) {
             return res.status(404).render('error', {
                 title: 'Informations personnelles non trouvées',
@@ -72,11 +77,29 @@ router.post('/:id/edit', async (req, res, next) => {
             });
         }
 
+        // Conversion de la taille avec la fonction utils
+        try {
+            if (tailleEnMetres) {
+                tailleEnMetres = convertToMeters(tailleEnMetres);
+            }
+        } catch (error) {
+            return res.render('personnel/edit', {
+                title: `Modifier les informations personnelles de ${personnel.Personne.prenom} ${personnel.Personne.nom}`,
+                personnel: {
+                    ...personnel.get({ plain: true }),
+                    age,
+                    taille,
+                    poids
+                },
+                errors: [error.message]
+            });
+        }
+
         // Mise à jour des informations
         await personnel.update({
-            age: Number(age),
-            taille: Number(taille),
-            poids: Number(poids)
+            age: Number(age) || null,
+            taille: tailleEnMetres || null,
+            poids: Number(poids) || null
         });
 
         // Redirection vers la page de détails après modification
@@ -96,9 +119,11 @@ router.post('/:id/edit', async (req, res, next) => {
 
             return res.render('personnel/edit', {
                 title: `Modifier les informations personnelles de ${personnel.Personne.prenom} ${personnel.Personne.nom}`,
-                personnel: personnel,
-                errors: error.errors.map(e => e.message),
-                formData: req.body
+                personnel: {
+                    ...personnel.get({ plain: true }),
+                    ...req.body
+                },
+                errors: error.errors.map(e => e.message)
             });
         }
 
