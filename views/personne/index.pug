@@ -16,6 +16,7 @@ block content
             th #
             th Prénom
             th Nom
+            th Date d'adhésion
             th Actions
         tbody
           each personne in personnes
@@ -23,6 +24,7 @@ block content
               td= personne.id
               td= personne.prenom
               td= personne.nom
+              td= personne.date_adhesion ? personne.date_adhesion : 'Non renseigné'
               td
                 div.btn-group
                   a.btn.btn-sm.btn-info(href=`/contacts/${personne.id}`, title='Voir informations de contact')
@@ -31,6 +33,9 @@ block content
                   a.btn.btn-sm.btn-success(href=`/personnels/${personne.id}`, title='Voir informations personnelles')
                     i.bi.bi-person.me-1
                     | Personnel
+                  a.btn.btn-sm.btn-warning(href=`/personnes/${personne.id}/edit-date`, title='Modifier la date d\'adhésion')
+                    i.bi.bi-calendar-event.me-1
+                    | Modifier date
                   a.btn.btn-sm.btn-danger(href=`/personnes/${personne.id}/delete`, onclick='return confirm("Êtes-vous sûr de vouloir supprimer cette personne?")')
                     i.bi.bi-trash
                     | Supprimer

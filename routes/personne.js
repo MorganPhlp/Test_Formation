@@ -6,7 +6,7 @@ const { Personne, Contact, Personnel } = require('../models');
 router.get('/', async (req, res, next) => {
     try {
         const personnes = await Personne.findAll({
-            attributes: ['id', 'nom', 'prenom'],
+            attributes: ['id', 'nom', 'prenom', 'date_adhesion'],
             order: [['nom', 'ASC'], ['prenom', 'ASC']]
         });
 
@@ -50,6 +50,42 @@ router.get('/:id', async (req, res, next) => {
         });
     } catch (error) {
         console.error(`Erreur lors de la récupération de la personne (ID: ${req.params.id}):`, error);
+        next(error);
+    }
+});
+
+// GET - Formulaire de modification de la date d'adhésion
+router.get('/:id/edit-date', async (req, res, next) => {
+    try {
+        const personne = await Personne.findByPk(req.params.id);
+        if (!personne) {
+            return res.status(404).render('error', {
+                title: 'Personne non trouvée',
+                message: `La personne avec l'ID ${req.params.id} n'existe pas.`
+            });
+        }
+        res.render('personne/edit-date', {
+            title: 'Modifier la date d\'adhésion',
+            personne
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// POST - Enregistrement de la nouvelle date d'adhésion
+router.post('/:id/edit-date', async (req, res, next) => {
+    try {
+        const personne = await Personne.findByPk(req.params.id);
+        if (!personne) {
+            return res.status(404).render('error', {
+                title: 'Personne non trouvée',
+                message: `La personne avec l'ID ${req.params.id} n'existe pas.`
+            });
+        }
+        await personne.update({ date_adhesion: req.body.date_adhesion || null });
+        res.redirect('/personnes');
+    } catch (error) {
         next(error);
     }
 });

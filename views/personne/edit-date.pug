@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+  h1.mb-4 Modifier la date d'adhésion
+  form(method='POST')
+    .mb-3
+      label.form-label(for='date_adhesion') Date d'adhésion
+      input#date_adhesion.form-control(type='date', name='date_adhesion', value=personne.date_adhesion)
+    button.btn.btn-primary(type='submit') Enregistrer
+    a.btn.btn-secondary.ms-2(href='/personnes') Annuler
+

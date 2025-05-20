@@ -37,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: true
       }
+    },
+    date_adhesion: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
     }
   }, {
     sequelize,
